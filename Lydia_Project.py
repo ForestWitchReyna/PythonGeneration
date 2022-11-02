@@ -273,7 +273,7 @@ while True: #main menu loop
                     # order_list[order_index]["customer_address"] = input("Please enter the address of the customer placing an order\n")
                     # order_list[order_index]["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
 
-                    
+                    #cha
                     #order_list[order_index]["status"] = status_list[status_index].upper()
 
                     #order_list[order_index]["status"] = status_list[0].upper()  #0 to default to "preparing"
