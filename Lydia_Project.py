@@ -5,12 +5,18 @@ products = ["Bottled Water", "Coke", "Diet Coke", "Coke Zero", "Pepsi", "Lemonad
 
 #order = {}#"customer_name", "customer_address", "customer_phone", "status"
 order_list = []
+courier_list = []
 status_list = ["preparing", "dispatched", "delivered", "cancelled", "returned", "lost"]
 
 prompt = "\nWhat would you like to do: "    #prompt string so i don't have to type out each case
 
 menu_prompt = "This is the main menu\nHere you can select which option you wish for by typing \
  in the corresponding number for the command \nThe commands are as follows:\n0- Shutdown Program \n1- Product Menu \n2- Order Menu"
+
+#Tech debt goals:
+#make function for input validation loops
+#make function for 
+
 
 def orderlist_function():
     i=0
@@ -23,6 +29,13 @@ def statuslist_function():
     i=0
     for status in status_list: #Status list
         print(i,":", status.upper())
+        i+=1
+    return i
+
+def productlist_function():
+    i=0
+    for product in products: #implement as function?
+        print(i,":", product)
         i+=1
     return i
 
@@ -46,26 +59,19 @@ while True: #main menu loop
 
                 elif command == "1":    #Product list
                     print("Products we have are:\n")
-                    for product in products: 
-                        print(product)
+                    productlist_function()
 
                 elif command == "2":    #Add new product
                     newProd = input("Please enter the name of the product you wish to add:\n")
                     products.append(newProd)
                     print(f"New product: {newProd} added to product list")
-
-                    for product in products: 
-                        print(product)
+                    productlist_function()
 
                 elif command == "3":    #List and update products
                     print("Current list of products:")
-                    
-                    i=0
-                    for product in products: #implement as function?
-                        print(i,":", product)
-                        i+=1
+                    productlist_function()
 
-                    while True:
+                    while True: #input validation loop
                         try:
                             prodIndex = int(input("Please enter the index value of the product you wish to update:\n"))
                             #implement as function?
@@ -83,18 +89,11 @@ while True: #main menu loop
                     updProd = input("Please enter the new name for the product you wish to update:\n")
 
                     products[prodIndex] = updProd
-
-                    i=0
-                    for product in products: #implement as function?
-                        print(i,":", product)
-                        i+=1
+                    productlist_function()
 
                 elif command == "4":    #Delete product
 
-                    i=0
-                    for product in products: #Product list
-                        print(i,":", product)
-                        i+=1
+                    productlist_function()
 
                     while True:
                         try:
@@ -153,14 +152,9 @@ while True: #main menu loop
 
                 elif command == "3":
                     print("Update existing order status")
-                    # i=0
-                    # for order in order_list: #Order list
-                    #     print(i,":", order)
-                    #     i+=1
-                    
                     orderlist_function()
 
-                    while True:
+                    while True: #input validation loop
                         try:
                             order_index = int(input("Please enter the index value of the order you wish to update:\n")) #implement as function?
                             print(f"You selected {order_index}- {order_list[order_index]}")  
@@ -175,14 +169,10 @@ while True: #main menu loop
 
                         else:
                             break
-                    # i=0
-                    # for status in status_list:
-                    #     print (i, ":", status.upper())
-                    #     i+=1
 
                     statuslist_function()
 
-                    while True:
+                    while True: #input validaiton loop
                         try:
                             status_index = int(input("Please enter the index value of new order status:\n"))
                             print(f"You selected {status_index}- {status_list[status_index].upper()}\n")    
@@ -206,11 +196,6 @@ while True: #main menu loop
 
                 elif command == "4":
                     print("Select which order you would like to update: ")  #leave blank to keep same
-
-                    # i=0
-                    # for order in order_list: #Order list
-                    #     print(i,":", order)
-                    #     i+=1
                     
                     orderlist_function()
 
@@ -240,15 +225,9 @@ while True: #main menu loop
                     if num_input != "":
                         order_list[order_index]["customer_number"] = num_input
 
-                    
-                    # i=0
-                    # for status in status_list: #Status list
-                    #     print(i,":", status.upper())
-                    #     i+=1
-
                     statuslist_function()
 
-                    while True:
+                    while True: #Input validation loop
                         try:
                             status_index = int(input("Please enter the index value of new order status:\n"))
                             print(f"You selected {status_index}- {status_list[status_index]}")
@@ -288,14 +267,15 @@ while True: #main menu loop
                     
                     orderlist_function()
 
-                    while True:
+                    while True: #Input validation loop
                         try:
                             order_index = int(input("Please enter the index value of the order you wish to delete:\n")) #implement as function?
+                            print(f"You selected {order_index}- {order_list[order_index]}")
 
-                            print(f"You selected {order_index}- {order_list[order_index]}")                           
                         except ValueError:
                             print ("Invalid command, please enter an existing index value")
                             continue
+
                         except IndexError:
                             print ("That was not an existing index value")
                             continue
@@ -303,7 +283,9 @@ while True: #main menu loop
                             break
 
                     order_list.pop(order_index)
-
+        
+        elif command == "3":
+            print("Couriers Menu:")
 
         else:
             print ("Failure point, main menu loop")     #failure message
