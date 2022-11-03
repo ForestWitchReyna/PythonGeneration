@@ -109,10 +109,7 @@ while True: #main menu loop
                         else:
                             break
                         
-                    products.pop(prodIndex)
-
-                elif command == "0":    #Back to main menu
-                    break                    
+                    products.pop(prodIndex)                   
 
                 else:
                     print("Invalid command- product menu failure")
@@ -201,12 +198,24 @@ while True: #main menu loop
 
                     while True:
                         try:
-                            order_index = int(input("Please enter the index value of the order you wish to update:\n")) #implement as function?
+                            order_input = input("Please enter the index value of the order you wish to update:\n") #implement as function?
+                            
+                            #Change input to string input, then use try catch for converting to int, with no entry resulting in backing out
+                            #Once fixed and working, add as function, maybe add blank input as menu refresh on menus
+                            #Possible fix- change menu if statements to while loops, have command == "" operate as the main menus so changing to blank
+                            #will back out to menu
 
-                            print(f"You selected {order_index}- {order_list[order_index]}")                           
+                            if order_input == "":   
+                                print("Backing out")
+                                command = "1"
+                                break
+                            else:
+                                order_index = int(order_input)                                
+                                print(f"You selected {order_index}- {order_list[order_index]}")                           
                         except ValueError:
                             print ("Invalid command, please enter an existing index value")
                             continue
+                        
                         except IndexError:
                             print ("That was not an existing index value")
                             continue
@@ -234,7 +243,8 @@ while True: #main menu loop
                             if status_index != "":   
                                 order_list[order_index]["status"] = status_list[status_index].upper()
                             else:
-                                break    
+                                print("Backing out")
+                                continue    
 
                         except ValueError:
                             print ("Invalid command, please enter an existing index value")
