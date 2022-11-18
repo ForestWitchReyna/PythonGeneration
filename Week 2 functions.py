@@ -5,9 +5,6 @@ def add_numbers (result_text, a, b):
 result = add_numbers(a=100, b=200, result_text="REsult is")
 result = add_numbers("The result is", 100, 200)
 
-def get_name():
-    return "Alice"
-
 result = add_numbers (10, 5)
 print("Result is", result)
 

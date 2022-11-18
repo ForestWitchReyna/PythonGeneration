@@ -39,6 +39,26 @@ def productlist_function():
         i+=1
     return i
 
+def input_validation_function(inputIndex, inputContainer):
+
+    #pass in input as inputIndex and return as validIndex
+    #pass in lists and dictionaries as inputContainer and , assign to relevant variables
+
+    while True: #input validation loop
+        try:
+            validIndex = int(inputIndex)
+            #implement as function?
+
+            print(f"You selected {validIndex}- {inputContainer[validIndex]}")                           
+        except ValueError:
+            print ("Invalid command, please enter an existing index value")
+            continue
+        except IndexError:
+            print ("That was not an existing index value")
+            continue
+        else:
+            break
+
 while True: #main menu loop
     print(menu_prompt)
     command = input(prompt)
@@ -109,10 +129,7 @@ while True: #main menu loop
                         else:
                             break
                         
-                    products.pop(prodIndex)
-
-                elif command == "0":    #Back to main menu
-                    break                    
+                    products.pop(prodIndex)                   
 
                 else:
                     print("Invalid command- product menu failure")
@@ -195,72 +212,95 @@ while True: #main menu loop
                     #make status list, add option for "other: user input"
 
                 elif command == "4":
-                    print("Select which order you would like to update: ")  #leave blank to keep same
-                    
-                    orderlist_function()
 
-                    while True:
-                        try:
-                            order_index = int(input("Please enter the index value of the order you wish to update:\n")) #implement as function?
+                    while command == "4": #new command loop, maybe True then break, exit on blank input
+                        print("Select which order you would like to update: ")  #leave blank to keep same
+                        
+                        orderlist_function()
 
-                            print(f"You selected {order_index}- {order_list[order_index]}")                           
-                        except ValueError:
-                            print ("Invalid command, please enter an existing index value")
-                            continue
-                        except IndexError:
-                            print ("That was not an existing index value")
-                            continue
-                        else:
-                            break
-                    
-                    name_input = input("Please enter the new name of the customer placing an order:\n")
-                    if name_input != "":
-                        order_list[order_index]["customer_name"] = name_input
+                        #order_input = input("Please enter the index value of the order you wish to update:\n")
+                        #if order_input == "":
+                        #    break
 
-                    add_input = input("Please enter the new address of the customer placing an order:\n")
-                    if add_input != "":
-                        order_list[order_index]["customer_address"] = add_input
+                        while True:
+                            try:
+                                order_input = input("Please enter the index value of the order you wish to update:\n") #implement as function?
+                                
+                                #Change input to string input, then use try catch for converting to int, with no entry resulting in backing out
+                                #Once fixed and working, add as function, maybe add blank input as menu refresh on menus
+                                #Possible fix- change menu if statements to while loops, have command == "" operate as the main menus so changing to blank
+                                #will back out to menu
+                                #tab everything to fall under above loop?
 
-                    num_input = input("Please enter the new number of the customer placing an order:\n")
-                    if num_input != "":
-                        order_list[order_index]["customer_number"] = num_input
-
-                    statuslist_function()
-
-                    while True: #Input validation loop
-                        try:
-                            status_index = int(input("Please enter the index value of new order status:\n"))
-                            print(f"You selected {status_index}- {status_list[status_index]}")
-                            if status_index != "":   
-                                order_list[order_index]["status"] = status_list[status_index].upper()
+                                if order_input == "":   
+                                    print("Backing out")
+                                    command = "1"
+                                    break
+                                else:
+                                    order_index = int(order_input)                                
+                                    print(f"You selected {order_index}- {order_list[order_index]}")                           
+                            except ValueError:
+                                print ("Invalid command, please enter an existing index value")
+                                continue
+                            
+                            except IndexError:
+                                print ("That was not an existing index value")
+                                continue
                             else:
-                                break    
+                                break
 
-                        except ValueError:
-                            print ("Invalid command, please enter an existing index value")
-                            continue
-
-                        except IndexError:
-                            print ("That was not an existing index value")
-                            continue
-
-                        else:
+                        if command == "1":
                             break
 
-                    
-                    # order_list[order_index]["customer_name"] = input("Please enter the name of the customer placing an order:\n")
-                    # order_list[order_index]["customer_address"] = input("Please enter the address of the customer placing an order\n")
-                    # order_list[order_index]["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
+                        name_input = input("Please enter the new name of the customer placing an order:\n")
+                        if name_input != "":
+                            order_list[order_index]["customer_name"] = name_input
 
-                    #cha
-                    #order_list[order_index]["status"] = status_list[status_index].upper()
+                        add_input = input("Please enter the new address of the customer placing an order:\n")
+                        if add_input != "":
+                            order_list[order_index]["customer_address"] = add_input
 
-                    #order_list[order_index]["status"] = status_list[0].upper()  #0 to default to "preparing"
-                    #order["order_id"] = i 
-                    #i += 1
-                    #order_list.append(order)
+                        num_input = input("Please enter the new number of the customer placing an order:\n")
+                        if num_input != "":
+                            order_list[order_index]["customer_number"] = num_input
 
-                    print(order)
+                        statuslist_function()
+
+                        while True: #Input validation loop
+                            try:
+                                status_index = int(input("Please enter the index value of new order status:\n"))
+                                print(f"You selected {status_index}- {status_list[status_index]}")
+                                if status_index != "":   
+                                    order_list[order_index]["status"] = status_list[status_index].upper()
+                                else:
+                                    print("Backing out")
+                                    continue    
+
+                            except ValueError:
+                                print ("Invalid command, please enter an existing index value")
+                                continue
+
+                            except IndexError:
+                                print ("That was not an existing index value")
+                                continue
+
+                            else:
+                                break
+
+                        
+                        # order_list[order_index]["customer_name"] = input("Please enter the name of the customer placing an order:\n")
+                        # order_list[order_index]["customer_address"] = input("Please enter the address of the customer placing an order\n")
+                        # order_list[order_index]["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
+
+                        #cha
+                        #order_list[order_index]["status"] = status_list[status_index].upper()
+
+                        #order_list[order_index]["status"] = status_list[0].upper()  #0 to default to "preparing"
+                        #order["order_id"] = i 
+                        #i += 1
+                        #order_list.append(order)
+
+                        print(order)
 
                 elif command == "5":
                     print("Delete existing order")
