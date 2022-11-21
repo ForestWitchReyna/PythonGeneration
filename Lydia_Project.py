@@ -5,7 +5,7 @@ products = ["Bottled Water", "Coke", "Diet Coke", "Coke Zero", "Pepsi", "Lemonad
 
 #order = {}#"customer_name", "customer_address", "customer_phone", "status"
 order_list = []
-courier_list = []
+courier_list = ["Royal Mail", "DPD", "Parcel Force"]
 status_list = ["PREPARING", "DISPATCHED", "DELIVERED", "CANCELLED", "RETURNED", "LOST"]
 
 prompt = "\nWhat would you like to do: "    #prompt string so i don't have to type out each case
@@ -28,7 +28,7 @@ def orderlist_function():
 def statuslist_function():
     i=0
     for status in status_list: #Status list
-        print(i,":", status.upper())
+        print(i,":", status)
         i+=1
     return i
 
@@ -36,6 +36,13 @@ def productlist_function():
     i=0
     for product in products: #implement as function?
         print(i,":", product)
+        i+=1
+    return i
+
+def courierlist_function():
+    i=0
+    for courier in courier_list: #courier list
+        print(i, ":", courier)
         i+=1
     return i
 
@@ -142,11 +149,17 @@ while True: #main menu loop
                     order["customer_name"] = input("Please enter the name of the customer placing an order:\n")
                     order["customer_address"] = input("Please enter the address of the customer placing an order\n")
                     order["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
-                    order["status"] = status_list[0].upper()  #0 to default to "preparing"
+                    
+                    courierlist_function()
+
+                    inputIndex = input("Please enter the index value for the courier you wish to use:\n")
+                    inputContainer = courier_list
+                    courier_index = input_validation_function(inputIndex, inputContainer)
+
+                    order["status"] = status_list[0]  #0 to default to "preparing"
                     order_list.append(order)
 
                     print(order)
-                    #print(order_list)
 
                 elif command == "3":
                     print("Update existing order status")
