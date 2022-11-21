@@ -1,4 +1,5 @@
 import sys
+import csv
 from traceback import print_tb
 
 products = ["Bottled Water", "Coke", "Diet Coke", "Coke Zero", "Pepsi", "Lemonade", "Coffee"]
@@ -12,11 +13,6 @@ prompt = "\nWhat would you like to do: "    #prompt string so i don't have to ty
 
 menu_prompt = "This is the main menu\nHere you can select which option you wish for by typing \
  in the corresponding number for the command \nThe commands are as follows:\n0- Shutdown Program \n1- Product Menu \n2- Order Menu"
-
-#Tech debt goals:
-#make function for input validation loops
-#make function for 
-
 
 def orderlist_function():
     i=0
@@ -45,6 +41,12 @@ def courierlist_function():
         print(i, ":", courier)
         i+=1
     return i
+
+def load_products_function():
+    return
+
+def load_couriers_funciton():
+    return
 
 def input_validation_function(inputIndex, inputContainer):
 
