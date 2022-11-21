@@ -6,7 +6,7 @@ products = ["Bottled Water", "Coke", "Diet Coke", "Coke Zero", "Pepsi", "Lemonad
 #order = {}#"customer_name", "customer_address", "customer_phone", "status"
 order_list = []
 courier_list = []
-status_list = ["preparing", "dispatched", "delivered", "cancelled", "returned", "lost"]
+status_list = ["PREPARING", "DISPATCHED", "DELIVERED", "CANCELLED", "RETURNED", "LOST"]
 
 prompt = "\nWhat would you like to do: "    #prompt string so i don't have to type out each case
 
@@ -42,7 +42,7 @@ def productlist_function():
 def input_validation_function(inputIndex, inputContainer):
 
     #pass in input as inputIndex and return as validIndex
-    #pass in lists and dictionaries as inputContainer and , assign to relevant variables
+    #pass in lists and dictionaries as inputContainer
 
     while True: #input validation loop
         try:
@@ -58,6 +58,7 @@ def input_validation_function(inputIndex, inputContainer):
             continue
         else:
             break
+    return validIndex
 
 while True: #main menu loop
     print(menu_prompt)
@@ -70,8 +71,9 @@ while True: #main menu loop
         elif command == "1":    #product menu command
             subMenu = "\n0- Return to main menu \n1- Print product list \n2- Create new product \
                 \n3- Update existing product \n4- delete an existing product"
-            print(subMenu)
+            
             while True:
+                print(subMenu)
                 command = input(prompt) #product menu loop
                 if command == "0":
                     print("returning to main menu")
@@ -91,45 +93,26 @@ while True: #main menu loop
                     print("Current list of products:")
                     productlist_function()
 
-                    while True: #input validation loop
-                        try:
-                            prodIndex = int(input("Please enter the index value of the product you wish to update:\n"))
-                            #implement as function?
-
-                            print(f"You selected {prodIndex}- {products[prodIndex]}")                           
-                        except ValueError:
-                            print ("Invalid command, please enter an existing index value")
-                            continue
-                        except IndexError:
-                            print ("That was not an existing index value")
-                            continue
-                        else:
-                            break
+                    inputIndex = input("Please enter the index value of the product you wish to update:\n")
+                    inputContainer = products    
+                    product_index = input_validation_function(inputIndex, inputContainer)
 
                     updProd = input("Please enter the new name for the product you wish to update:\n")
-
-                    products[prodIndex] = updProd
+                
+                    products[product_index] = updProd
                     productlist_function()
 
                 elif command == "4":    #Delete product
 
                     productlist_function()
 
-                    while True:
-                        try:
-                            prodIndex = int(input("Please enter the index value of the product you wish to remove:\n"))
-                            #products[prodIndex]
-                            print(f"You selected {prodIndex}- {products[prodIndex]}")                           
-                        except ValueError:
-                            print ("Invalid command, please enter an existing index value")
-                            continue
-                        except IndexError:
-                            print ("That was not an existing index value")
-                            continue
-                        else:
-                            break
-                        
-                    products.pop(prodIndex)                   
+                    inputIndex = input("Please enter the index value of the product you wish to remove:\n")
+                    inputContainer = products    
+                    product_index = input_validation_function(inputIndex, inputContainer)
+
+                    print(f"{products[product_index]} has been deleted.")  
+                    products.pop(product_index)
+                                     
 
                 else:
                     print("Invalid command- product menu failure")
@@ -148,7 +131,7 @@ while True: #main menu loop
                     break
                 elif command == "1":
                     print("This is a list of all existing orders:")
-                    print(order_list)
+                    #print(order_list)
 
                     for order in order_list:
                         print(order)
@@ -160,8 +143,6 @@ while True: #main menu loop
                     order["customer_address"] = input("Please enter the address of the customer placing an order\n")
                     order["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
                     order["status"] = status_list[0].upper()  #0 to default to "preparing"
-                    #order["order_id"] = i 
-                    #i += 1
                     order_list.append(order)
 
                     print(order)
@@ -170,88 +151,35 @@ while True: #main menu loop
                 elif command == "3":
                     print("Update existing order status")
                     orderlist_function()
-
-                    while True: #input validation loop
-                        try:
-                            order_index = int(input("Please enter the index value of the order you wish to update:\n")) #implement as function?
-                            print(f"You selected {order_index}- {order_list[order_index]}")  
-
-                        except ValueError:
-                            print ("Invalid command, please enter an existing index value")
-                            continue
-
-                        except IndexError:
-                            print ("That was not an existing index value")
-                            continue
-
-                        else:
-                            break
+                    
+                    inputIndex = input("Please enter the index value of the order you wish to update:\n")
+                    inputContainer = order_list  
+                    order_index = input_validation_function(inputIndex, inputContainer)
 
                     statuslist_function()
 
-                    while True: #input validaiton loop
-                        try:
-                            status_index = int(input("Please enter the index value of new order status:\n"))
-                            print(f"You selected {status_index}- {status_list[status_index].upper()}\n")    
+                    inputIndex = input("Please enter the index value of the new order status:\n")
+                    inputContainer = status_list 
+                    status_index = input_validation_function(inputIndex, inputContainer)
 
-                        except ValueError:
-                            print ("Invalid command, please enter an existing index value")
-                            continue
-
-                        except IndexError:
-                            print ("That was not an existing index value")
-                            continue
-
-                        else:
-                            break
-
-                    order_list[order_index]["status"] = status_list[status_index].upper()
+                    order_list[order_index]["status"] = status_list[status_index]
 
                     print(order_list[order_index])
 
-                    #make status list, add option for "other: user input"
-
                 elif command == "4":
 
-                    while command == "4": #new command loop, maybe True then break, exit on blank input
+                    while True: #new command loop, maybe True then break, exit on blank input
                         print("Select which order you would like to update: ")  #leave blank to keep same
                         
                         orderlist_function()
 
-                        #order_input = input("Please enter the index value of the order you wish to update:\n")
-                        #if order_input == "":
-                        #    break
-
-                        while True:
-                            try:
-                                order_input = input("Please enter the index value of the order you wish to update:\n") #implement as function?
-                                
-                                #Change input to string input, then use try catch for converting to int, with no entry resulting in backing out
-                                #Once fixed and working, add as function, maybe add blank input as menu refresh on menus
-                                #Possible fix- change menu if statements to while loops, have command == "" operate as the main menus so changing to blank
-                                #will back out to menu
-                                #tab everything to fall under above loop?
-
-                                if order_input == "":   
-                                    print("Backing out")
-                                    command = "1"
-                                    break
-                                else:
-                                    order_index = int(order_input)                                
-                                    print(f"You selected {order_index}- {order_list[order_index]}")                           
-                            except ValueError:
-                                print ("Invalid command, please enter an existing index value")
-                                continue
-                            
-                            except IndexError:
-                                print ("That was not an existing index value")
-                                continue
-                            else:
-                                break
-
-                        if command == "1":
+                        inputIndex = input("Please enter the index value of the order you wish to update:\n")
+                        if inputIndex == "":
+                            print("Returning to main menu:\n")
                             break
-
+                        inputContainer = order_list   
+                        order_index = input_validation_function(inputIndex, inputContainer)
+                        
                         name_input = input("Please enter the new name of the customer placing an order:\n")
                         if name_input != "":
                             order_list[order_index]["customer_name"] = name_input
@@ -265,64 +193,36 @@ while True: #main menu loop
                             order_list[order_index]["customer_number"] = num_input
 
                         statuslist_function()
-
-                        while True: #Input validation loop
-                            try:
-                                status_index = int(input("Please enter the index value of new order status:\n"))
-                                print(f"You selected {status_index}- {status_list[status_index]}")
-                                if status_index != "":   
-                                    order_list[order_index]["status"] = status_list[status_index].upper()
-                                else:
-                                    print("Backing out")
-                                    continue    
-
-                            except ValueError:
-                                print ("Invalid command, please enter an existing index value")
-                                continue
-
-                            except IndexError:
-                                print ("That was not an existing index value")
-                                continue
-
-                            else:
-                                break
-
                         
-                        # order_list[order_index]["customer_name"] = input("Please enter the name of the customer placing an order:\n")
-                        # order_list[order_index]["customer_address"] = input("Please enter the address of the customer placing an order\n")
-                        # order_list[order_index]["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
+                        inputIndex = input("Please enter the index value of the new order status:\n")
+                        if inputIndex == "":
+                            print("Returning to main menu:\n")
+                            break
+                        inputContainer = status_list   
+                        status_index = input_validation_function(inputIndex, inputContainer)
 
-                        #cha
-                        #order_list[order_index]["status"] = status_list[status_index].upper()
+                        order_list[order_index]["status"] = status_list[status_index]
 
-                        #order_list[order_index]["status"] = status_list[0].upper()  #0 to default to "preparing"
-                        #order["order_id"] = i 
-                        #i += 1
-                        #order_list.append(order)
-
-                        print(order)
+                        #print(order)
+                        print(order_list[order_index])
+                        break
 
                 elif command == "5":
                     print("Delete existing order")
                     
-                    orderlist_function()
+                    while True:
+                        orderlist_function()
 
-                    while True: #Input validation loop
-                        try:
-                            order_index = int(input("Please enter the index value of the order you wish to delete:\n")) #implement as function?
-                            print(f"You selected {order_index}- {order_list[order_index]}")
-
-                        except ValueError:
-                            print ("Invalid command, please enter an existing index value")
-                            continue
-
-                        except IndexError:
-                            print ("That was not an existing index value")
-                            continue
-                        else:
+                        inputIndex = input("Please enter the index value of the order you wish to delete:\n")
+                        if inputIndex == "":
+                            print("Returning to main menu:\n")
                             break
+                        inputContainer = order_list   
+                        order_index = input_validation_function(inputIndex, inputContainer)
 
-                    order_list.pop(order_index)
+                        print(f"{order_list[order_index]} has been deleted.")  
+                        order_list.pop(order_index)
+                        break
         
         elif command == "3":
             print("Couriers Menu:")
