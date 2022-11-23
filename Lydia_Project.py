@@ -12,53 +12,55 @@ status_list = ["PREPARING", "DISPATCHED", "DELIVERED", "CANCELLED", "RETURNED", 
 prompt = "\nWhat would you like to do: "    #prompt string so i don't have to type out each case
 
 menu_prompt = "This is the main menu\nHere you can select which option you wish for by typing \
- in the corresponding number for the command \nThe commands are as follows:\n0- Shutdown Program \n1- Product Menu \n2- Order Menu"
+    in the corresponding number for the command \nThe commands are as follows:\n0- Shutdown Program \n1- Product Menu \n2- Order Menu \
+    \n3- Courier Menu"
 
-def orderlist_function():
+#move menu stuff into functions
+
+def list_orders():
     i=0
     for order in order_list: #Order list
         print(i,":", order)
         i+=1
     return i
 
-def statuslist_function():
+def list_status():
     i=0
     for status in status_list: #Status list
         print(i,":", status)
         i+=1
     return i
 
-def productlist_function():
+def list_products():
     i=0
     for product in products: #implement as function?
         print(i,":", product)
         i+=1
     return i
 
-def courierlist_function():
+def list_couriers():
     i=0
     for courier in courier_list: #courier list
         print(i, ":", courier)
         i+=1
     return i
 
-def load_products_function():
+def load_products():
     return
 
-def load_couriers_funciton():
+def load_couriers():
     return
 
-def input_validation_function(inputIndex, inputContainer):
-
-    #pass in input as inputIndex and return as validIndex
+def validate_input(inputContainer):
     #pass in lists and dictionaries as inputContainer
 
     while True: #input validation loop
         try:
-            validIndex = int(inputIndex)
-            #implement as function?
-
-            print(f"You selected {validIndex}- {inputContainer[validIndex]}")                           
+            listIndex = input()
+            if listIndex == "":
+                break
+            listIndex = int(listIndex)
+            print(f"You selected {listIndex}- {inputContainer[listIndex]}")                           
         except ValueError:
             print ("Invalid command, please enter an existing index value")
             continue
@@ -67,182 +69,298 @@ def input_validation_function(inputIndex, inputContainer):
             continue
         else:
             break
-    return validIndex
+    return listIndex
+
+
+def add_products(): #add products function
+    while True:
+        newProd = input("Please enter the name of the product you wish to add:\n")
+        if newProd == "":
+            break
+        products.append(newProd)
+        print(f"New product: {newProd} added to product list")
+        list_products()
+    return
+
+
+def update_products(): #update products function
+    while True:
+        print("Current list of products:")
+        list_products()
+
+        print("\nPlease enter the index value of the product you wish to update, " \
+            "or leave blank to back out:\n") 
+
+        product_index = validate_input(products) #input validation function
+
+        if product_index == "":
+            print("Returning to product menu")  #backs out to product menu
+            break
+
+        updProd = input("Please enter the new name for the product you wish to update:\n")
+    
+        products[product_index] = updProd
+        list_products()
+    return
+
+
+def delete_products(): #delete product function
+    while True:
+        list_products()
+        print("\nPlease enter the index value of the product you wish to remove," \
+            "or leave blank to back out:\n") 
+                
+        product_index = validate_input(products) #input validation function
+
+        if product_index == "":
+            print("Returning to product menu")  #backs out to product menu
+            break
+
+        print(f"{products[product_index]} has been deleted.")  #Show whats being deleted
+        products.pop(product_index)
+    return
+
+
+def add_orders(): #add order function
+    order = {}
+    print("Create new order")   #creates a new order dict (add checks for validity)
+    order["customer_name"] = input("Please enter the name of the customer placing an order:\n")
+    order["customer_address"] = input("Please enter the address of the customer placing an order\n")
+    order["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
+    
+    list_couriers()
+
+    courier_index = validate_input(courier_list) #input validation function
+    order["courier"] = courier_list[courier_index]
+    order["status"] = status_list[0]  #0 to default to "preparing"
+    order_list.append(order)
+
+    print(order)
+    return
+
+
+def update_status(): #update order status function
+    print("Update existing order status")
+            
+    while True:
+
+        list_orders()
+
+        print("\nPlease enter the index value of the order you wish to update the status of, " \
+            "or leave blank to back out:\n") 
+
+        order_index = validate_input(order_list) #input validation function
+        if order_index == "":
+            print("Returning to order menu")  #backs out to order menu
+            break
+
+        list_status()
+
+        print("\nPlease enter the index value of the new order status," \
+            "or leave blank to back out:\n") 
+    
+        status_index = validate_input(status_list) #input validation function
+        if status_index == "":
+            print("Returning to order menu")  #backs out to order menu
+            break
+
+        order_list[order_index]["status"] = status_list[status_index]
+
+        print(order_list[order_index])
+    return
+
+
+def update_orders(): #update order function
+    while True:                
+        list_orders()
+
+        print("\nPlease enter the index value of the order you wish to update, " \
+            "or leave blank to back out:\n") 
+    
+        order_index = validate_input(order_list) #input validation function
+        if order_index == "":
+            print("Returning to order menu")  #backs out to order menu
+            break
+
+        print("Leave the following inputs blank to keep unchanged")
+        
+        name_input = input("Please enter the new name of the customer placing an order:\n")
+        if name_input != "":
+            order_list[order_index]["customer_name"] = name_input
+
+        add_input = input("Please enter the new address of the customer placing an order:\n")
+        if add_input != "":
+            order_list[order_index]["customer_address"] = add_input
+
+        num_input = input("Please enter the new number of the customer placing an order:\n")
+        if num_input != "":
+            order_list[order_index]["customer_number"] = num_input
+
+        list_status()
+        
+        print("\nPlease enter the index value of the new order status") 
+    
+        status_index = validate_input(status_list) #input validation function
+        if status_index != "":
+            order_list[order_index]["status"] = status_list[status_index]
+
+        print(order_list[order_index])
+    return
+
+def delete_orders(): #delete order function
+    while True:
+        print("Delete existing order")
+        list_orders()
+
+        print("\nPlease enter the index value of the order you wish to delete, " \
+            "or leave blank to back out:\n") 
+    
+        order_index = validate_input(order_list) #input validation function
+        if order_index == "":
+            print("Returning to order menu")  #backs out to order menu
+            break
+
+        print(f"{order_list[order_index]} has been deleted.")  
+        order_list.pop(order_index)
+        break
+    return
+
+def add_courier(): #add courier function
+    while True:
+        new_courier = input("Please enter the name of the courier you wish to add, or leave blank to back out:\n")
+        if new_courier == "":
+            break
+        courier_list.append(new_courier)
+        print(f"New courier: {new_courier} added to courier list")
+        list_couriers()
+    return
+
+def update_courier(): #update courier function
+    while True:
+        print("Current list of couriers:")
+        list_couriers()
+
+        print("\nPlease enter the index value of the courier you wish to update, " \
+            "or leave blank to back out:\n") 
+
+        courier_index = validate_input(courier_list) #input validation function
+
+        if courier_index == "":
+            print("Returning to courier menu")  #backs out to courier menu
+            break
+
+        upd_courier = input("Please enter the new name for the courier you wish to update:\n")
+    
+        courier_list[courier_index] = upd_courier
+        list_couriers()
+    return
+
+def delete_courier(): #delete courier function
+    while True:
+        list_couriers()
+        print("\nPlease enter the index value of the courier you wish to remove," \
+            "or leave blank to back out:\n") 
+                
+        courier_index = validate_input(courier_list) #input validation function
+
+        if courier_index == "":
+            print("Returning to courier menu")  #backs out to courier menu
+            break
+
+        print(f"{courier_list[courier_index]} has been deleted.")  #Show whats being deleted
+        courier_list.pop(courier_index)
+    return
 
 while True: #main menu loop
     print(menu_prompt)
     command = input(prompt)
 
-    if command in ["0", "1", "2"]:
-        if command == "0":      
-            sys.exit("Shutting down program")       #shutdown command
+    if command == "0":      
+        sys.exit("Shutting down program")       #shutdown command
 
-        elif command == "1":    #product menu command
-            subMenu = "\n0- Return to main menu \n1- Print product list \n2- Create new product \
-                \n3- Update existing product \n4- delete an existing product"
-            
-            while True:
-                print(subMenu)
-                command = input(prompt) #product menu loop
-                if command == "0":
-                    print("returning to main menu")
-                    break
+    elif command == "1":    #product menu command
+        subMenu = "\n0- Return to main menu \n1- Print product list \n2- Create new product \
+            \n3- Update existing product \n4- delete an existing product"
+        
+        while True:
+            print(subMenu)
+            command = input(prompt) #product menu loop
+            if command == "0":
+                print("returning to main menu")
+                break
 
-                elif command == "1":    #Product list
-                    print("Products we have are:\n")
-                    productlist_function()
+            elif command == "1":    #Product list
+                print("Products we have are:\n")
+                list_products()
 
-                elif command == "2":    #Add new product
-                    newProd = input("Please enter the name of the product you wish to add:\n")
-                    products.append(newProd)
-                    print(f"New product: {newProd} added to product list")
-                    productlist_function()
+            elif command == "2":    #Add new product
+                add_products()
 
-                elif command == "3":    #List and update products
-                    print("Current list of products:")
-                    productlist_function()
+            elif command == "3":    #List and update products
+                update_products()
 
-                    inputIndex = input("Please enter the index value of the product you wish to update:\n")
-                    inputContainer = products    
-                    product_index = input_validation_function(inputIndex, inputContainer)
-
-                    updProd = input("Please enter the new name for the product you wish to update:\n")
-                
-                    products[product_index] = updProd
-                    productlist_function()
-
-                elif command == "4":    #Delete product
-
-                    productlist_function()
-
-                    inputIndex = input("Please enter the index value of the product you wish to remove:\n")
-                    inputContainer = products    
-                    product_index = input_validation_function(inputIndex, inputContainer)
-
-                    print(f"{products[product_index]} has been deleted.")  
-                    products.pop(product_index)
-                                     
-
-                else:
-                    print("Invalid command- product menu failure")
-                    print(subMenu)
+            elif command == "4":    #Delete product
+                delete_products()
+                                    
+            else:
+                print("Invalid Command: Please enter a valid index number")
 
 
-        elif command == "2":
-            ord_menu = "This is the order menu\n0- Return to main menu \n1- Print orders dictionary \n2- Create new order\
-                \n3- Update existing order status \n4- Update an existing order \n5- Delete an existing order"
+    elif command == "2":    #Order menu command
+        ord_menu = "This is the order menu\n0- Return to main menu \n1- Print orders dictionary \n2- Create new order\
+            \n3- Update existing order status \n4- Update an existing order \n5- Delete an existing order"
 
-            while True:
-                print(ord_menu)
-                command = input(prompt) #product menu loop
-                if command == "0":
-                    print("returning to main menu")
-                    break
-                elif command == "1":
-                    print("This is a list of all existing orders:")
-                    #print(order_list)
+        while True:
+            print(ord_menu)
+            command = input(prompt) 
 
-                    for order in order_list:
-                        print(order)
+            if command == "0":  #return to main menu
+                print("returning to main menu")
+                break
 
-                elif command == "2":
-                    order = {}
-                    print("Create new order")   #creates a new order dict (add checks for validity)
-                    order["customer_name"] = input("Please enter the name of the customer placing an order:\n")
-                    order["customer_address"] = input("Please enter the address of the customer placing an order\n")
-                    order["customer_number"] = input("Please enter the phone number of the customer placing an order\n")
-                    
-                    courierlist_function()
-
-                    inputIndex = input("Please enter the index value for the courier you wish to use:\n")
-                    inputContainer = courier_list
-                    courier_index = input_validation_function(inputIndex, inputContainer)
-
-                    order["status"] = status_list[0]  #0 to default to "preparing"
-                    order_list.append(order)
-
+            elif command == "1": #Print all existing orders
+                print("This is a list of all existing orders:")
+                for order in order_list:
                     print(order)
 
-                elif command == "3":
-                    print("Update existing order status")
-                    orderlist_function()
+            elif command == "2": #create a new order
+                add_orders()
+
+            elif command == "3": #Update an existing order status
+                update_status()
                     
-                    inputIndex = input("Please enter the index value of the order you wish to update:\n")
-                    inputContainer = order_list  
-                    order_index = input_validation_function(inputIndex, inputContainer)
 
-                    statuslist_function()
+            elif command == "4": #Update an existing order
+                update_orders()
 
-                    inputIndex = input("Please enter the index value of the new order status:\n")
-                    inputContainer = status_list 
-                    status_index = input_validation_function(inputIndex, inputContainer)
+            elif command == "5": #Delete an existing order           
+                delete_orders()
+    
 
-                    order_list[order_index]["status"] = status_list[status_index]
+    elif command == "3":
+        courier_menu = "This is the courier menu\n0- Return to main menu \n1- Print list of couriers \n2- Create new courier\
+            \n3- Update existing courier \n4- Delete an existing courier"
 
-                    print(order_list[order_index])
+        while True:
+            print(courier_menu) #Courier menu
+            command = input(prompt)
+            if command == "0":
+                print("returning to main menu")
+                break
 
-                elif command == "4":
+            elif command == "1": #Print couriers list
+                print("This is a list of couriers used")
+                list_couriers()
 
-                    while True: #new command loop, maybe True then break, exit on blank input
-                        print("Select which order you would like to update: ")  #leave blank to keep same
-                        
-                        orderlist_function()
+            elif command == "2": #add new courier
+                add_courier()
 
-                        inputIndex = input("Please enter the index value of the order you wish to update:\n")
-                        if inputIndex == "":
-                            print("Returning to main menu:\n")
-                            break
-                        inputContainer = order_list   
-                        order_index = input_validation_function(inputIndex, inputContainer)
-                        
-                        name_input = input("Please enter the new name of the customer placing an order:\n")
-                        if name_input != "":
-                            order_list[order_index]["customer_name"] = name_input
+            elif command == "3": #Update existing courier
+                update_courier()
 
-                        add_input = input("Please enter the new address of the customer placing an order:\n")
-                        if add_input != "":
-                            order_list[order_index]["customer_address"] = add_input
+            elif command == "4": #Delete existing courier
+                delete_courier()
 
-                        num_input = input("Please enter the new number of the customer placing an order:\n")
-                        if num_input != "":
-                            order_list[order_index]["customer_number"] = num_input
 
-                        statuslist_function()
-                        
-                        inputIndex = input("Please enter the index value of the new order status:\n")
-                        if inputIndex == "":
-                            print("Returning to main menu:\n")
-                            break
-                        inputContainer = status_list   
-                        status_index = input_validation_function(inputIndex, inputContainer)
-
-                        order_list[order_index]["status"] = status_list[status_index]
-
-                        #print(order)
-                        print(order_list[order_index])
-                        break
-
-                elif command == "5":
-                    print("Delete existing order")
-                    
-                    while True:
-                        orderlist_function()
-
-                        inputIndex = input("Please enter the index value of the order you wish to delete:\n")
-                        if inputIndex == "":
-                            print("Returning to main menu:\n")
-                            break
-                        inputContainer = order_list   
-                        order_index = input_validation_function(inputIndex, inputContainer)
-
-                        print(f"{order_list[order_index]} has been deleted.")  
-                        order_list.pop(order_index)
-                        break
-        
-        elif command == "3":
-            print("Couriers Menu:")
-
-        else:
-            print ("Failure point, main menu loop")     #failure message
     else:
-        print("Invalid command, please enter either 0 or 1") #Invalid input message
+        print ("Failure point, main menu loop")     #failure message
