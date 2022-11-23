@@ -13,10 +13,6 @@ Project Background:
 The project was requested by a client running a pop-up cafe offering home-made food and drinks to local offices. 
 As such they needed a software application to enable them to log and track orders.
 
-Your client has launched a pop-up café in a busy business district. They
-are offering home-made lunches and refreshments to the surrounding
-offices. As such, they require a software application which helps them to
-log and track orders.
 
 
 
