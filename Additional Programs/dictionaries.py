@@ -15,10 +15,10 @@ car = {
 # print(car.get(info))
 # print(car.get("make"))
 
-print(car.items())#retursn key pairs
+#print(car.items())#retursn key pairs
 
-car.keys() #returns list of keys
-car.values() #returns list of values
+# car.keys() #returns list of keys
+# car.values() #returns list of values
 
 
 #car.clear() #empties a dictionairy

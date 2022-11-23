@@ -36,14 +36,12 @@ filename = "testdata.csv"
 #write file as csv dictionary
 people = [
     {
-        "name": "Lydia",
-        "surname": "Miller",
-        "age": 27
+        "product_name": "Lydia",
+        "price": "Miller",
     },
     {
         "name": "Test",
         "surname": "McTest",
-        "age": "55"
     }
 ]
 

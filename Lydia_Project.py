@@ -1,21 +1,19 @@
 import sys
 import csv
-from traceback import print_tb
 
-products = ["Bottled Water", "Coke", "Diet Coke", "Coke Zero", "Pepsi", "Lemonade", "Coffee"]
+product_list = ["Bottled Water", "Coke", "Diet Coke", "Coke Zero", "Pepsi", "Lemonade", "Coffee", "Cheese and Pickle Sandwich"]
 
-#order = {}#"customer_name", "customer_address", "customer_phone", "status"
 order_list = []
-courier_list = ["Royal Mail", "DPD", "Parcel Force"]
+courier_list = ["John D Liver", "Postman Pat", "Perse L Force"]
 status_list = ["PREPARING", "DISPATCHED", "DELIVERED", "CANCELLED", "RETURNED", "LOST"]
 
 prompt = "\nWhat would you like to do: "    #prompt string so i don't have to type out each case
 
-menu_prompt = "This is the main menu\nHere you can select which option you wish for by typing \
-    in the corresponding number for the command \nThe commands are as follows:\n0- Shutdown Program \n1- Product Menu \n2- Order Menu \
+menu_prompt = "This is the main menu\nHere you can select which option you wish for by typing " \
+    "in the corresponding number for the command \nThe commands are as follows:\n0- Shutdown Program \n1- Product Menu \n2- Order Menu \
     \n3- Courier Menu"
 
-#move menu stuff into functions
+#Functions
 
 def list_orders():
     i=0
@@ -33,7 +31,7 @@ def list_status():
 
 def list_products():
     i=0
-    for product in products: #implement as function?
+    for product in product_list: #product list
         print(i,":", product)
         i+=1
     return i
@@ -77,7 +75,7 @@ def add_products(): #add products function
         newProd = input("Please enter the name of the product you wish to add:\n")
         if newProd == "":
             break
-        products.append(newProd)
+        product_list.append(newProd)
         print(f"New product: {newProd} added to product list")
         list_products()
     return
@@ -91,7 +89,7 @@ def update_products(): #update products function
         print("\nPlease enter the index value of the product you wish to update, " \
             "or leave blank to back out:\n") 
 
-        product_index = validate_input(products) #input validation function
+        product_index = validate_input(product_list) #input validation function
 
         if product_index == "":
             print("Returning to product menu")  #backs out to product menu
@@ -99,8 +97,7 @@ def update_products(): #update products function
 
         updProd = input("Please enter the new name for the product you wish to update:\n")
     
-        products[product_index] = updProd
-        list_products()
+        product_list[product_index] = updProd
     return
 
 
@@ -110,14 +107,14 @@ def delete_products(): #delete product function
         print("\nPlease enter the index value of the product you wish to remove," \
             "or leave blank to back out:\n") 
                 
-        product_index = validate_input(products) #input validation function
+        product_index = validate_input(product_list) #input validation function
 
         if product_index == "":
             print("Returning to product menu")  #backs out to product menu
             break
 
-        print(f"{products[product_index]} has been deleted.")  #Show whats being deleted
-        products.pop(product_index)
+        print(f"{product_list[product_index]} has been deleted.")  #Show whats being deleted
+        product_list.pop(product_index)
     return
 
 
