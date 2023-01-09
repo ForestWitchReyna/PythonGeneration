@@ -2,7 +2,6 @@ import sys
 import csv
 
 product_list = ["Bottled Water", "Coke", "Diet Coke", "Coke Zero", "Pepsi", "Lemonade", "Coffee", "Cheese and Pickle Sandwich"]
-
 order_list = []
 courier_list = ["John D Liver", "Postman Pat", "Perse L Force"]
 status_list = ["PREPARING", "DISPATCHED", "DELIVERED", "CANCELLED", "RETURNED", "LOST"]
