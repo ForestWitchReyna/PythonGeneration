@@ -8,4 +8,4 @@ jobs:
       - name: checkout-repo
         uses: actions/checkout@v2
       - name: list-dir
-        run: ls -laR # Recursively list directory contents
+        run: ls -laR # Recursively list directory content
